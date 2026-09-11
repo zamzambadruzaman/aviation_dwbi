@@ -57,5 +57,9 @@ postgres_local/data/
 postgres_local/postgres-data/
 postgres_local/*.log
 
+# Local dataset archives and generated large files
+data/*.tar.gz
+data/**/*.tar.gz
+
 # Keep project data directories tracked unless they are generated local output
 # e.g. data/ is intentionally left alone.
