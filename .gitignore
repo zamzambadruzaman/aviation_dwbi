@@ -63,3 +63,6 @@ data/**/*.tar.gz
 
 # Keep project data directories tracked unless they are generated local output
 # e.g. data/ is intentionally left alone.
+
+.claude/
+.agents/
