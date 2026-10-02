@@ -1,5 +1,5 @@
 """
-03_build_datamart.py — Bangun datamart (tabel agregat siap-pakai) dari fact
+build_datamart.py — Bangun datamart (tabel agregat siap-pakai) dari fact
 table di schema dw, disimpan sebagai schema mart di file DuckDB yang sama.
 
 Kenapa perlu tahap ini: fact_ticket_market sendiri 13,5 juta baris. Kalau
@@ -12,9 +12,9 @@ berubah.
 
 Idempoten: schema mart di-reset (DROP+CREATE) setiap dijalankan.
 
-Jalankan SETELAH 02_load_facts.py.
+Jalankan SETELAH load_facts.py.
 
-Jalankan : python 03_build_datamart.py
+Jalankan : python build_datamart.py
 Butuh    : pip install duckdb
 """
 
@@ -99,7 +99,7 @@ def main():
         print(f"  mart.{t}: {n:,} baris")
 
     con.close()
-    print("\nSelesai. Streamlit app sekarang membaca dari schema mart, bukan dw.fact_*.")
+    print("\nSelesai.")
 
 
 if __name__ == "__main__":

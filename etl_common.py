@@ -1,14 +1,14 @@
 """
-etl_common.py — konfigurasi & koneksi bersama untuk pipeline dimensi & fact.
+etl_common.py — konfigurasi & koneksi untuk pipeline dimensi & fact.
 """
 
 import duckdb
 from datetime import date
 
 # ==========================================================
-# KONFIGURASI — WAJIB disesuaikan dengan environment Anda
+# KONFIGURASI — WAJIB disesuaikan dengan environment dimana script ini dijalankan.
 # ==========================================================
-PG_CONN_STRING = "postgresql://nama_user_anda:password_anda@localhost:5432/nama_database_anda"
+PG_CONN_STRING = "postgresql://user:password@localhost:5432/transtats_db"
 DUCKDB_PATH = "transtats_dw.duckdb"
 SCOPE_START = date(2022, 1, 1)
 SCOPE_END = date(2022, 6, 30)
@@ -31,7 +31,7 @@ def connect():
 
 def connect_duckdb_only(read_only: bool = False):
     """Buka koneksi DuckDB murni, TANPA attach Postgres.
-    Dipakai oleh 03_build_datamart.py (baca dw.*, tulis mart.*) dan
+    Dipakai oleh build_datamart.py (baca dw.*, tulis mart.*) dan
     streamlit_app.py (baca mart.* & dw.dim_* saja) — keduanya tidak
     perlu akses Postgres sama sekali.
     """

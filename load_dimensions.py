@@ -1,13 +1,13 @@
 """
-01_load_dimensions.py — Load semua tabel dimensi (Dim_Date, Dim_Airport,
+load_dimensions.py — Load semua tabel dimensi (Dim_Date, Dim_Airport,
 Dim_Carrier, Dim_Aircraft_Type) dari staging Postgres ke DuckDB.
 
 Idempoten: setiap dijalankan, schema & sequence di-reset (DROP lalu CREATE)
 sebelum diisi ulang, jadi aman dijalankan berkali-kali tanpa duplikasi.
 
-Jalankan SEBELUM 02_load_facts.py (fact table butuh dimensi ini sudah ada).
+Jalankan SEBELUM load_facts.py (fact table butuh dimensi ini sudah ada).
 
-Jalankan : python 01_load_dimensions.py
+Jalankan : python load_dimensions.py
 Butuh    : pip install duckdb polars
 """
 
@@ -180,7 +180,7 @@ def main():
     load_dim_aircraft_type(con)
 
     con.close()
-    print("\nSelesai. Lanjutkan dengan: python 02_load_facts.py")
+    print("\nSelesai. Lanjutkan dengan: python load_facts.py")
 
 
 if __name__ == "__main__":

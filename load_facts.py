@@ -1,5 +1,5 @@
 """
-02_load_facts.py — Load semua fact table (Fact_Flight_OnTime, Fact_Route_Traffic,
+load_facts.py — Load semua fact table (Fact_Flight_OnTime, Fact_Route_Traffic,
 Fact_Ticket_Market) dari staging Postgres ke DuckDB.
 
 Data cleansing yang diterapkan sebelum load:
@@ -15,9 +15,9 @@ Data cleansing yang diterapkan sebelum load:
 Idempoten: fact table di-reset (DROP+CREATE, sequence direset) setiap
 dijalankan, jadi hasil akhirnya selalu konsisten berapa kali pun dijalankan.
 
-Jalankan SETELAH 01_load_dimensions.py (fact butuh dimensi sudah terisi).
+Jalankan SETELAH load_dimensions.py (fact butuh dimensi sudah terisi).
 
-Jalankan : python 02_load_facts.py
+Jalankan : python load_facts.py
 Butuh    : pip install duckdb
 """
 

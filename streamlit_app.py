@@ -3,14 +3,14 @@ streamlit_app.py — Dashboard TranStats
 Proses bisnis: Operasional & Ketepatan Waktu | Kapasitas & Traffic Rute | Tarif & Pangsa Pasar
 
 PENTING: app ini HANYA membaca (read-only) dari:
-  - schema mart.*   -> tabel agregat siap-pakai, hasil 03_build_datamart.py
+  - schema mart.*   -> tabel agregat siap-pakai, hasil build_datamart.py
   - schema dw.dim_* -> tabel dimensi kecil, untuk menampilkan nama/kode
 Tidak ada agregasi berat dijalankan di sini; semua sudah disiapkan lebih dulu.
 
 Urutan pipeline lengkap:
-  1. python 01_load_dimensions.py
-  2. python 02_load_facts.py
-  3. python 03_build_datamart.py
+  1. python load_dimensions.py
+  2. python load_facts.py
+  3. python build_datamart.py
   4. streamlit run streamlit_app.py   <-- file ini
 
 Butuh: pip install streamlit duckdb pandas plotly
