@@ -66,3 +66,4 @@ data/**/*.tar.gz
 
 .claude/
 .agents/
+*.duckdb
