@@ -26,20 +26,23 @@ def build_ontime_summary(con):
     con.execute("""
         CREATE TABLE mart.ontime_summary AS
         SELECT
-            date_key, carrier_key, origin_airport_key, dest_airport_key,
+            f.date_key, d.full_date, d.year, d.quarter, d.month,
+            f.carrier_key, f.origin_airport_key, f.dest_airport_key,
             COUNT(*)                                                        AS total_flights,
-            SUM(cancelled)                                                  AS total_cancelled,
-            SUM(diverted)                                                   AS total_diverted,
-            SUM(CASE WHEN cancelled = 0 THEN arr_delay ELSE 0 END)          AS sum_arr_delay,
-            SUM(CASE WHEN cancelled = 0 THEN 1 ELSE 0 END)                  AS count_flown,
-            SUM(CASE WHEN cancelled = 0 AND arr_delay <= 15 THEN 1 ELSE 0 END) AS count_on_time,
-            SUM(carrier_delay)                                              AS sum_carrier_delay,
-            SUM(weather_delay)                                              AS sum_weather_delay,
-            SUM(nas_delay)                                                  AS sum_nas_delay,
-            SUM(security_delay)                                             AS sum_security_delay,
-            SUM(late_aircraft_delay)                                        AS sum_late_aircraft_delay
-        FROM dw.fact_flight_ontime
-        GROUP BY date_key, carrier_key, origin_airport_key, dest_airport_key
+            SUM(f.cancelled)                                                  AS total_cancelled,
+            SUM(f.diverted)                                                   AS total_diverted,
+            SUM(CASE WHEN f.cancelled = 0 THEN f.arr_delay ELSE 0 END)          AS sum_arr_delay,
+            SUM(CASE WHEN f.cancelled = 0 THEN 1 ELSE 0 END)                  AS count_flown,
+            SUM(CASE WHEN f.cancelled = 0 AND f.arr_delay <= 15 THEN 1 ELSE 0 END) AS count_on_time,
+            SUM(f.carrier_delay)                                              AS sum_carrier_delay,
+            SUM(f.weather_delay)                                              AS sum_weather_delay,
+            SUM(f.nas_delay)                                                  AS sum_nas_delay,
+            SUM(f.security_delay)                                             AS sum_security_delay,
+            SUM(f.late_aircraft_delay)                                        AS sum_late_aircraft_delay
+        FROM dw.fact_flight_ontime f
+        JOIN dw.dim_date d ON d.date_key = f.date_key
+        GROUP BY f.date_key, d.full_date, d.year, d.quarter, d.month,
+                 f.carrier_key, f.origin_airport_key, f.dest_airport_key
     """)
 
 
@@ -48,14 +51,17 @@ def build_traffic_summary(con):
     con.execute("""
         CREATE TABLE mart.traffic_summary AS
         SELECT
-            date_key, carrier_key, origin_airport_key, dest_airport_key,
-            SUM(seats)                AS total_seats,
-            SUM(passengers)           AS total_passengers,
-            SUM(freight)              AS total_freight,
-            SUM(mail)                 AS total_mail,
-            SUM(departures_performed) AS total_departures
-        FROM dw.fact_route_traffic
-        GROUP BY date_key, carrier_key, origin_airport_key, dest_airport_key
+            f.date_key, d.full_date, d.year, d.quarter, d.month,
+            f.carrier_key, f.origin_airport_key, f.dest_airport_key,
+            SUM(f.seats)                AS total_seats,
+            SUM(f.passengers)           AS total_passengers,
+            SUM(f.freight)              AS total_freight,
+            SUM(f.mail)                 AS total_mail,
+            SUM(f.departures_performed) AS total_departures
+        FROM dw.fact_route_traffic f
+        JOIN dw.dim_date d ON d.date_key = f.date_key
+        GROUP BY f.date_key, d.full_date, d.year, d.quarter, d.month,
+                 f.carrier_key, f.origin_airport_key, f.dest_airport_key
     """)
 
 
@@ -64,12 +70,15 @@ def build_market_summary(con):
     con.execute("""
         CREATE TABLE mart.market_summary AS
         SELECT
-            date_key, carrier_key, origin_airport_key, dest_airport_key,
-            SUM(passengers)                AS total_passengers,
-            SUM(mkt_fare * passengers)      AS fare_revenue_proxy,
-            SUM(mkt_distance * passengers)  AS distance_weighted_proxy
-        FROM dw.fact_ticket_market
-        GROUP BY date_key, carrier_key, origin_airport_key, dest_airport_key
+            f.date_key, d.full_date, d.year, d.quarter, d.month,
+            f.carrier_key, f.origin_airport_key, f.dest_airport_key,
+            SUM(f.passengers)                AS total_passengers,
+            SUM(f.mkt_fare * f.passengers)      AS fare_revenue_proxy,
+            SUM(f.mkt_distance * f.passengers)  AS distance_weighted_proxy
+        FROM dw.fact_ticket_market f
+        JOIN dw.dim_date d ON d.date_key = f.date_key
+        GROUP BY f.date_key, d.full_date, d.year, d.quarter, d.month,
+                 f.carrier_key, f.origin_airport_key, f.dest_airport_key
     """)
 
 

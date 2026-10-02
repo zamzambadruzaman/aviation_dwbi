@@ -1,7 +1,9 @@
+# Tema dasar Material. Toggle "Mode Gelap" di sidebar app menimpa ini
+# secara dinamis lewat CSS + tema Plotly.
 [theme]
 base = "light"
-primaryColor = "#1656D9"
+primaryColor = "#1565C0"
 backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F2F5FA"
-textColor = "#1A2233"
+secondaryBackgroundColor = "#F5F7FA"
+textColor = "#1C1B1F"
 font = "sans serif"

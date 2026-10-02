@@ -29,58 +29,117 @@ from etl_common import connect_duckdb_only, DUCKDB_PATH, SCOPE_START, SCOPE_END
 # ==========================================================
 st.set_page_config(page_title="TranStats Airline Dashboard", page_icon="✈️", layout="wide")
 
-BRAND_COLORS = ["#1656D9", "#00B2A9", "#F2994A", "#EB5757", "#9B51E0", "#2D9CDB", "#27AE60", "#828282"]
-pio.templates["brand"] = pio.templates["plotly_white"]
-pio.templates["brand"].layout.colorway = BRAND_COLORS
-pio.templates["brand"].layout.font = dict(family="sans serif", size=13, color="#1A2233")
-pio.templates["brand"].layout.title.font = dict(size=16, color="#14203D")
-pio.templates["brand"].layout.margin = dict(l=10, r=10, t=50, b=10)
-pio.templates.default = "brand"
+# Material Design color palette (Material Blue as primary, Material accents for series)
+BRAND_COLORS = ["#1976D2", "#009688", "#FF9800", "#E53935", "#7B1FA2",
+                "#039BE5", "#43A047", "#FBC02D", "#5E35B1", "#00897B",
+                "#F4511E", "#3949AB", "#7CB342", "#8D6E63", "#546E7A"]
 
-st.markdown("""
-<style>
-    .stApp { background-color: #FFFFFF; }
-
-    .block-container {
-        padding-top: 1.3rem;
-        padding-bottom: 1.5rem;
-        padding-left: 2.2rem;
-        padding-right: 2.2rem;
-    }
-
-    div[data-testid="stMetric"] {
-        background-color: #EEF3FB;
-        border: none;
-        border-radius: 10px;
-        padding: 10px 16px 8px 16px;
-    }
-    div[data-testid="stMetricLabel"] {
-        font-weight: 600; color: #5B6472; font-size: 0.74rem;
-        text-transform: uppercase; letter-spacing: 0.03em;
-    }
-    div[data-testid="stMetricValue"] { font-size: 1.45rem; font-weight: 700; color: #0F172A; }
-
-    h1 { font-size: 1.55rem; font-weight: 800; color: #0F172A; padding-bottom: 0; margin-bottom: 0.1rem; }
-    .app-subtitle { color: #6B7280; font-size: 0.86rem; margin-top: 0; margin-bottom: 0.6rem; }
-    .section-label {
-        font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-        letter-spacing: 0.04em; color: #2563EB; margin: 0.2rem 0 0.15rem 2px;
-    }
-    .app-footer { color: #9CA3AF; font-size: 0.72rem; text-align: center; margin-top: 1rem; }
-
-    button[data-baseweb="tab"] { font-weight: 600; padding: 4px 14px; font-size: 0.9rem; }
-
-    div[data-testid="stVerticalBlock"] { gap: 0.6rem; }
-</style>
-""", unsafe_allow_html=True)
+# Material 3 surface / on-surface tokens
+LIGHT = dict(
+    bg="#FFFFFF", surface="#F5F7FA", sidebar_bg="#F8F9FC",
+    text_primary="#1C1B1F", text_secondary="#49454F",
+    primary="#1565C0", outline="#E3E5EA",
+    chart_font="#49454F", chart_title_font="#1C1B1F", chart_gridline="#ECEFF3",
+)
+DARK = dict(
+    bg="#121212", surface="#1E1E1E", sidebar_bg="#181818",
+    text_primary="#E6E1E5", text_secondary="#CAC4D0",
+    primary="#90CAF9", outline="#2E2E2E",
+    chart_font="#CAC4D0", chart_title_font="#E6E1E5", chart_gridline="#2A2A2A",
+)
 
 
-# ==========================================================
-# FORMATTER AMAN-NaN — dipakai tiap kali menampilkan angka KPI.
-# Perlu karena SUM() atas hasil filter yang kosong (mis. maskapai
-# terpilih tidak muncul sama sekali di salah satu fact pada rentang
-# tanggal terpilih) menghasilkan NULL/NaN, dan int(NaN) akan error.
-# ==========================================================
+def configure_plotly_theme(dark: bool):
+    t = DARK if dark else LIGHT
+    base = "plotly_dark" if dark else "plotly_white"
+    pio.templates["brand"] = pio.templates[base]
+    pio.templates["brand"].layout.colorway = BRAND_COLORS
+    pio.templates["brand"].layout.font = dict(family="Roboto, sans-serif", size=13, color=t["chart_font"])
+    pio.templates["brand"].layout.title.font = dict(family="Roboto, sans-serif", size=16, color=t["chart_title_font"])
+    pio.templates["brand"].layout.margin = dict(l=10, r=10, t=50, b=10)
+    pio.templates["brand"].layout.paper_bgcolor = "rgba(0,0,0,0)"
+    pio.templates["brand"].layout.plot_bgcolor = "rgba(0,0,0,0)"
+    pio.templates.default = "brand"
+
+
+def render_theme_css(dark: bool):
+    t = DARK if dark else LIGHT
+    st.markdown(f"""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+        html, body, .stApp, .stApp * {{
+            font-family: 'Roboto', -apple-system, 'Segoe UI', sans-serif;
+        }}
+
+        .stApp {{ background-color: {t['bg']}; }}
+        section[data-testid="stSidebar"] {{
+            background-color: {t['sidebar_bg']};
+            border-right: 1px solid {t['outline']};
+        }}
+
+        .block-container {{
+            padding: 1.25rem 2rem 1.5rem 2rem;
+            max-width: 100%;
+        }}
+
+        .stApp, .stApp p, .stApp span, .stApp label, .stApp li {{ color: {t['text_primary']}; }}
+
+        /* Material type scale — headline small / title medium */
+        h1 {{
+            font-size: 1.5rem !important; font-weight: 500 !important; letter-spacing: 0;
+            color: {t['text_primary']} !important; padding: 0 !important; margin-bottom: 0.1rem !important;
+        }}
+        h2, h3 {{ font-weight: 500 !important; color: {t['text_primary']} !important; }}
+
+        /* Material filled card — flat, no elevation shadow */
+        div[data-testid="stMetric"] {{
+            background-color: {t['surface']};
+            border: 1px solid {t['outline']};
+            border-radius: 12px;
+            padding: 12px 16px 10px 16px;
+        }}
+        div[data-testid="stMetricLabel"] {{
+            font-weight: 500; color: {t['text_secondary']} !important;
+            font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase;
+        }}
+        div[data-testid="stMetricValue"] {{
+            font-size: 1.5rem; font-weight: 500; color: {t['text_primary']} !important;
+        }}
+
+        .app-subtitle {{
+            color: {t['text_secondary']} !important; font-size: 0.875rem;
+            letter-spacing: 0.02em; margin: 0 0 0.75rem 0;
+        }}
+        .section-label {{
+            font-size: 0.6875rem; font-weight: 500; text-transform: uppercase;
+            letter-spacing: 0.08em; color: {t['primary']} !important; margin: 0.35rem 0 0.2rem 2px;
+        }}
+        .app-footer {{
+            color: {t['text_secondary']} !important; font-size: 0.75rem;
+            text-align: center; margin-top: 1.25rem; letter-spacing: 0.02em;
+        }}
+
+        /* Material tabs — indicator underline, medium weight */
+        button[data-baseweb="tab"] {{
+            font-weight: 500 !important; font-size: 0.875rem !important;
+            letter-spacing: 0.02em; padding: 6px 18px !important;
+        }}
+        div[data-baseweb="tab-highlight"] {{ background-color: {t['primary']} !important; height: 2px; }}
+
+        /* Material shape — rounded inputs & controls */
+        div[data-baseweb="select"] > div, div[data-baseweb="input"] > div {{
+            border-radius: 8px !important; border-color: {t['outline']} !important;
+        }}
+        div[data-testid="stDataFrame"] {{
+            background-color: {t['surface']}; border-radius: 12px; border: 1px solid {t['outline']};
+        }}
+        hr {{ border-color: {t['outline']}; }}
+        div[data-testid="stVerticalBlock"] {{ gap: 0.65rem; }}
+    </style>
+    """, unsafe_allow_html=True)
+
+
 def fmt_int(val):
     return "N/A" if pd.isna(val) else f"{int(val):,}"
 
@@ -117,14 +176,13 @@ def load_carrier_list():
 
 
 def styled_chart(fig, height=300):
+    grid = DARK["chart_gridline"] if CURRENT_DARK else LIGHT["chart_gridline"]
     fig.update_layout(
         height=height,
         title_x=0.02,
         margin=dict(l=10, r=10, t=40, b=5),
-        plot_bgcolor="white",
-        paper_bgcolor="rgba(0,0,0,0)",
         xaxis=dict(showgrid=False, zeroline=False),
-        yaxis=dict(showgrid=True, gridcolor="#EEF1F6", zeroline=False),
+        yaxis=dict(showgrid=True, gridcolor=grid, zeroline=False),
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -150,9 +208,18 @@ def kpi_row(items):
 
 
 # ==========================================================
+# DARK MODE — dibaca lebih dulu supaya tema (CSS & chart) konsisten
+# di seluruh halaman, termasuk yang dirender sebelum sidebar penuh muncul
+# ==========================================================
+dark_mode = st.sidebar.toggle(":material/dark_mode: Mode Gelap", value=False)
+CURRENT_DARK = dark_mode
+configure_plotly_theme(dark_mode)
+render_theme_css(dark_mode)
+
+# ==========================================================
 # HEADER
 # ==========================================================
-st.title("✈️  TranStats Airline Dashboard")
+st.title(":material/flight_takeoff: TranStats Airline Dashboard")
 st.markdown(
     '<p class="app-subtitle">Analisis Operasional, Kapasitas, dan Pangsa Pasar Penerbangan AS · Jan–Jun 2022</p>',
     unsafe_allow_html=True,
@@ -162,7 +229,8 @@ st.markdown(
 # SIDEBAR — filter global
 # ==========================================================
 with st.sidebar:
-    st.header("🔎 Filter")
+    st.divider()
+    st.header(":material/tune: Filter")
 
     date_range = st.date_input(
         "Rentang tanggal",
@@ -180,7 +248,7 @@ with st.sidebar:
         "Maskapai (kosongkan = semua)", options=carrier_df["display_name"].tolist(), default=[]
     )
     st.divider()
-    st.caption(f"📁 Sumber: `{DUCKDB_PATH}`  ·  schema `mart`")
+    st.caption(f":material/database: Sumber: `{DUCKDB_PATH}`  ·  schema `mart`")
 
 selected_codes = None
 if selected_carriers:
@@ -201,10 +269,10 @@ def carrier_clause(alias="dc"):
 # TABS — navigasi utama
 # ==========================================================
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📊  Ringkasan Eksekutif",
-    "🛫  Operasional & Ketepatan Waktu",
-    "📦  Kapasitas & Traffic Rute",
-    "💰  Tarif & Pangsa Pasar",
+    ":material/dashboard: Ringkasan Eksekutif",
+    ":material/schedule: Operasional & Ketepatan Waktu",
+    ":material/airline_seat_recline_normal: Kapasitas & Traffic Rute",
+    ":material/payments: Tarif & Pangsa Pasar",
 ])
 
 # ----------------------------------------------------------
