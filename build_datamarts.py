@@ -1,5 +1,5 @@
 """
-build_datamart.py — Bangun datamart (tabel agregat siap-pakai) dari fact
+03_build_datamart.py — Bangun datamart (tabel agregat siap-pakai) dari fact
 table di schema dw, disimpan sebagai schema mart di file DuckDB yang sama.
 
 Kenapa perlu tahap ini: fact_ticket_market sendiri 13,5 juta baris. Kalau
@@ -12,9 +12,9 @@ berubah.
 
 Idempoten: schema mart di-reset (DROP+CREATE) setiap dijalankan.
 
-Jalankan SETELAH load_facts.py.
+Jalankan SETELAH 02_load_facts.py.
 
-Jalankan : python build_datamart.py
+Jalankan : python 03_build_datamart.py
 Butuh    : pip install duckdb
 """
 
@@ -66,6 +66,18 @@ def build_traffic_summary(con):
 
 
 def build_market_summary(con):
+    # CATATAN: baris dengan carrier_code '99' DIKELUARKAN di sini.
+    # Pada DB1B, kolom maskapai hanya berisi kode maskapai untuk itinerary
+    # yang seluruhnya diterbangkan satu maskapai (on-line itinerary); selain
+    # itu nilainya 99, yang menandakan itinerary interline. Kode 99 karena itu
+    # bukan maskapai, dan bila dibiarkan akan muncul sebagai batang kelima
+    # terbesar pada grafik pangsa pasar seolah-olah sebuah maskapai.
+    # Verifikasi yang mendasari keputusan ini (Jan-Jun 2022):
+    #   - pangsa penumpang 9,61%, satu-satunya kode tanpa carrier_name
+    #   - tarif rata-rata $316,21 vs $201,88 untuk maskapai tunggal
+    #   - KPI Tarif Rata-rata keseluruhan turun dari $212,86 ke $201,88 (-5,4%)
+    # Penyaringan sengaja dilakukan di lapisan datamart, BUKAN di tabel fakta,
+    # agar dw.fact_ticket_market tetap merepresentasikan sumber secara utuh.
     con.execute("DROP TABLE IF EXISTS mart.market_summary;")
     con.execute("""
         CREATE TABLE mart.market_summary AS
@@ -77,6 +89,8 @@ def build_market_summary(con):
             SUM(f.mkt_distance * f.passengers)  AS distance_weighted_proxy
         FROM dw.fact_ticket_market f
         JOIN dw.dim_date d ON d.date_key = f.date_key
+        JOIN dw.dim_carrier c ON c.carrier_key = f.carrier_key
+        WHERE c.carrier_code <> '99'
         GROUP BY f.date_key, d.full_date, d.year, d.quarter, d.month,
                  f.carrier_key, f.origin_airport_key, f.dest_airport_key
     """)
@@ -99,7 +113,7 @@ def main():
         print(f"  mart.{t}: {n:,} baris")
 
     con.close()
-    print("\nSelesai.")
+    print("\nSelesai. Streamlit app sekarang membaca dari schema mart, bukan dw.fact_*.")
 
 
 if __name__ == "__main__":

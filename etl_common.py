@@ -8,7 +8,7 @@ from datetime import date
 # ==========================================================
 # KONFIGURASI — WAJIB disesuaikan dengan environment dimana script ini dijalankan.
 # ==========================================================
-PG_CONN_STRING = "postgresql://user:password@localhost:5432/transtats_db"
+PG_CONN_STRING = "postgresql://postgres:postgres@localhost:5432/postgres"
 DUCKDB_PATH = "transtats_dw.duckdb"
 SCOPE_START = date(2022, 1, 1)
 SCOPE_END = date(2022, 6, 30)

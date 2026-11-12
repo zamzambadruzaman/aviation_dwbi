@@ -1,0 +1,292 @@
+
+==============================================================================
+[1/16] A1. Ketepatan waktu per maskapai (min. 10.000 penerbangan) | Untuk: Bab 6.1, 6.2, 7.1
+==============================================================================
+          carrier_name  flights  on_time_rate  avg_arr_delay  cancel_rate
+     Endeavor Air Inc. 122380.0      0.843129       3.529836     0.038438
+Hawaiian Airlines Inc.  35458.0      0.839974       4.068151     0.009730
+             Envoy Air 128930.0      0.837797       1.940284     0.029636
+  Delta Air Lines Inc. 433347.0      0.834559       3.538339     0.022045
+           Horizon Air  47804.0      0.833159       4.880898     0.019768
+ SkyWest Airlines Inc. 375607.0      0.830433       6.095543     0.023620
+    Mesa Airlines Inc.  62411.0      0.812793       8.413718     0.044832
+  Alaska Airlines Inc. 109123.0      0.808342       3.355216     0.033339
+ United Air Lines Inc. 296499.0      0.799834       6.374714     0.024449
+     PSA Airlines Inc. 116733.0      0.790651       8.602650     0.041325
+American Airlines Inc. 419339.0      0.790634       8.089403     0.038842
+      Republic Airline 171165.0      0.784431       7.086771     0.060001
+Southwest Airlines Co. 614081.0      0.767489       6.185817     0.026578
+      Spirit Air Lines 109816.0      0.728838      13.373749     0.037608
+Frontier Airlines Inc.  73382.0      0.675274      18.118633     0.032106
+       JetBlue Airways 133926.0      0.663862      20.471328     0.053881
+         Allegiant Air  61071.0      0.655318      19.342917     0.044325
+
+==============================================================================
+[2/16] A2. Tren bulanan ketepatan waktu dan pembatalan | Untuk: Bab 6.2 (narasi tren)
+==============================================================================
+ year  month  flights  on_time_rate  avg_arr_delay  cancel_rate
+ 2022      1 537902.0      0.811521       3.972274     0.061825
+ 2022      2 495713.0      0.809609       4.666710     0.043848
+ 2022      3 564853.0      0.789283       7.069209     0.015477
+ 2022      4 556502.0      0.782391       8.557872     0.023436
+ 2022      5 578819.0      0.794170       7.391776     0.019669
+ 2022      6 577283.0      0.763887      10.645632     0.030966
+
+==============================================================================
+[3/16] A3. Komposisi penyebab keterlambatan (total dan proporsi) | Untuk: Bab 6.2, 7.1
+==============================================================================
+     penyebab      menit
+      carrier 18735136.0
+late_aircraft 16954878.0
+          nas  7874895.0
+      weather  2441526.0
+     security    90346.0
+
+==============================================================================
+[4/16] A4. Komposisi penyebab keterlambatan per maskapai (proporsi) | Untuk: Bab 7.1 — apakah profil penyebab berbeda antar maskapai
+==============================================================================
+          carrier_name  pct_carrier  pct_weather  pct_nas  pct_late_aircraft
+Southwest Airlines Co.     0.362675     0.016253 0.138407           0.482664
+     PSA Airlines Inc.     0.303417     0.070704 0.147262           0.478617
+         Allegiant Air     0.272625     0.054622 0.213607           0.459146
+           Horizon Air     0.380371     0.036283 0.157382           0.425964
+Frontier Airlines Inc.     0.325245     0.021066 0.242123           0.411566
+ United Air Lines Inc.     0.344609     0.045461 0.200429           0.409502
+American Airlines Inc.     0.395818     0.051439 0.164178           0.388564
+      Republic Airline     0.301919     0.048435 0.276716           0.372930
+       JetBlue Airways     0.444201     0.029627 0.160991           0.365180
+             Envoy Air     0.295266     0.122618 0.232848           0.349268
+  Alaska Airlines Inc.     0.363020     0.029775 0.266687           0.340518
+Hawaiian Airlines Inc.     0.615335     0.030764 0.013841           0.340060
+     Endeavor Air Inc.     0.340228     0.086039 0.247211           0.326522
+    Mesa Airlines Inc.     0.499750     0.078423 0.131397           0.290430
+      Spirit Air Lines     0.295582     0.041591 0.378249           0.284579
+  Delta Air Lines Inc.     0.517074     0.045605 0.166640           0.270682
+ SkyWest Airlines Inc.     0.614544     0.120129 0.022261           0.243066
+
+==============================================================================
+[5/16] A5. Dua puluh bandara asal dengan keterlambatan terburuk (min. 20.000 penerbangan) | Untuk: Bab 6.2, 7.1 — apakah masalahnya terkonsentrasi di hub tertentu
+==============================================================================
+airport_code             city_name  flights  avg_arr_delay  on_time_rate
+         MCO           Orlando, FL  72884.0      15.682446      0.709629
+         RSW        Fort Myers, FL  22234.0      15.123242      0.721545
+         FLL   Fort Lauderdale, FL  44641.0      14.562106      0.718296
+         EWR            Newark, NJ  65403.0      14.407107      0.705401
+         MIA             Miami, FL  57289.0      13.301159      0.726675
+         JFK          New York, NY  67228.0      11.461151      0.735654
+         DEN            Denver, CO 129215.0      10.774588      0.733675
+         TPA             Tampa, FL  38352.0      10.400697      0.769958
+         BWI         Baltimore, MD  40813.0      10.397711      0.717414
+         MDW           Chicago, IL  33603.0      10.156434      0.703156
+         DCA        Washington, DC  70608.0       9.113704      0.761561
+         DFW Dallas/Fort Worth, TX 136656.0       8.838976      0.785320
+         AUS            Austin, TX  43930.0       8.558099      0.784749
+         CLE         Cleveland, OH  20023.0       8.506700      0.783606
+         IAD        Washington, DC  27498.0       8.327565      0.793273
+         BOS            Boston, MA  65712.0       7.836456      0.770613
+         LAS         Las Vegas, NV  81960.0       7.769713      0.769079
+         HOU           Houston, TX  24050.0       7.416029      0.763570
+         MSY       New Orleans, LA  23568.0       7.392329      0.793428
+         DAL            Dallas, TX  31856.0       7.379544      0.744207
+
+==============================================================================
+[6/16] B1. Load factor per maskapai | Untuk: Bab 6.1, 7.1
+==============================================================================
+                                        carrier_name      seats        pax  load_factor
+                                  Mesa Airlines Inc.  4579144.0  3895176.0     0.850634
+                                Delta Air Lines Inc. 70132210.0 58856509.0     0.839222
+                              American Airlines Inc. 68210785.0 57034584.0     0.836152
+                               United Air Lines Inc. 48450486.0 40356141.0     0.832936
+                                       Allegiant Air 10306302.0  8499776.0     0.824716
+                                    Spirit Air Lines 19596592.0 16075884.0     0.820341
+                         Air Wisconsin Airlines Corp  1703600.0  1389858.0     0.815836
+                                   Piedmont Airlines  2219498.0  1805622.0     0.813527
+                       CommuteAir LLC dba CommuteAir  1795350.0  1455994.0     0.810981
+                                           Envoy Air  8189464.0  6555657.0     0.800499
+                                Alaska Airlines Inc. 17565476.0 14027593.0     0.798589
+                                   PSA Airlines Inc.  7996280.0  6381246.0     0.798027
+                               SkyWest Airlines Inc. 24500608.0 19508283.0     0.796237
+                              Southwest Airlines Co. 93010668.0 73725058.0     0.792652
+                              Frontier Airlines Inc. 13658074.0 10821638.0     0.792325
+                                     JetBlue Airways 18562856.0 14345363.0     0.772799
+                                         Horizon Air  3570328.0  2742069.0     0.768016
+                              Hawaiian Airlines Inc.  5893647.0  4520284.0     0.766976
+                                   Endeavor Air Inc.  7963396.0  5887724.0     0.739348
+              Sun Country Airlines d/b/a MN Airlines  2432360.0  1756598.0     0.722178
+             GoJet Airlines LLC d/b/a United Express  1414100.0  1013901.0     0.716994
+                                      Silver Airways   275020.0   196766.0     0.715461
+                 TEM Enterprises dba  Avelo Airlines   677103.0   481461.0     0.711060
+     Southern Airways Express, dba Mokulele Airlines   312716.0   213414.0     0.682453
+                                    Republic Airline 12016854.0  8141637.0     0.677518
+                   Breeze Aviation Group DBA  Breeze   649509.0   393227.0     0.605422
+                     Delux Public Charters d/b/a JSX   406740.0   241407.0     0.593517
+              Hyannis Air Service, Inc. dba Cape Air   331601.0   174788.0     0.527103
+CFM Inc d/b/a Contour Airlines d/b/a One Jet Shuttle   219310.0   111668.0     0.509179
+         Key Lime Air Corp dba Denver Air Connection   152828.0    77090.0     0.504423
+                                NEW PACIFIC AIRLINES   237427.0   114734.0     0.483239
+                                     Bering Air Inc.   184847.0    69865.0     0.377961
+                                      Grant Aviation   289404.0    97337.0     0.336336
+                      Global Crossing Airlines, Inc.   108330.0    26425.0     0.243931
+Swift Air, LLC d/b/a Eastern Air Lines d/b/a Eastern  1033278.0   223691.0     0.216487
+
+==============================================================================
+[7/16] B2. Tren bulanan kapasitas dan load factor | Untuk: Bab 6.2 — pemulihan pasca pandemi sepanjang Jan-Jun 2022
+==============================================================================
+ year  month      seats        pax  load_factor
+ 2022      1 70609339.0 46383157.0     0.656898
+ 2022      2 66721247.0 49599616.0     0.743386
+ 2022      3 78581876.0 65364791.0     0.831805
+ 2022      4 75962281.0 64350395.0     0.847136
+ 2022      5 79281042.0 67801052.0     0.855199
+ 2022      6 78890044.0 68283214.0     0.865549
+
+==============================================================================
+[8/16] B3. Rute dengan load factor terendah di antara rute bervolume besar | Untuk: Bab 7.1, 7.3 — kandidat rute dengan kapasitas berlebih
+==============================================================================
+   rute    seats      pax  load_factor
+DCA-LGA 326994.0 151670.0     0.463831
+SJC-BUR 255834.0 119610.0     0.467530
+LGA-DCA 327116.0 153555.0     0.469421
+BUR-SJC 256705.0 121033.0     0.471487
+HPN-DCA  50226.0  24140.0     0.480628
+MCO-RSW  50810.0  25401.0     0.499921
+SYR-BWI  75800.0  38130.0     0.503034
+ENA-ANC  62961.0  31892.0     0.506536
+BLI-OAK  59760.0  30390.0     0.508534
+CMH-LGA 131914.0  67880.0     0.514578
+BOS-CVG  86137.0  44351.0     0.514889
+IAH-DAL 136289.0  70330.0     0.516036
+BWI-SYR  76794.0  39762.0     0.517775
+ANC-ENA  62908.0  32579.0     0.517883
+SJU-STT  52727.0  27388.0     0.519430
+LGA-CHO  53995.0  28289.0     0.523919
+PIT-JFK  89245.0  47025.0     0.526920
+LGA-CMH 132360.0  70003.0     0.528883
+BUR-SMF 258639.0 137691.0     0.532368
+CHO-LGA  52862.0  28183.0     0.533143
+
+==============================================================================
+[9/16] B4. Rute dengan load factor tertinggi (kandidat penambahan frekuensi) | Untuk: Bab 7.1, 7.3
+==============================================================================
+   rute    seats      pax  load_factor
+PHX-MIA 107633.0 103273.0     0.959492
+FAT-DFW  78411.0  74657.0     0.952124
+PHX-MCO 135757.0 128751.0     0.948393
+SJU-CLT  70665.0  66746.0     0.944541
+SLC-CLT  63902.0  60083.0     0.940237
+MFE-DFW 107395.0 100748.0     0.938107
+PHX-TPA  60012.0  56241.0     0.937163
+DFW-FAT  79206.0  74199.0     0.936785
+MCO-DEN 317901.0 296277.0     0.931979
+MCO-SLC 174485.0 162590.0     0.931828
+DFW-VPS  59785.0  55609.0     0.930150
+DFW-SMF 114124.0 105930.0     0.928201
+PHX-MDW 184406.0 170929.0     0.926917
+SEA-FAI 126277.0 116993.0     0.926479
+ONT-ATL  81915.0  75878.0     0.926302
+SMF-DFW 113762.0 105373.0     0.926258
+DFW-PDX 146087.0 135275.0     0.925989
+DEN-MCO 334361.0 309422.0     0.925413
+SEA-FLL  55800.0  51594.0     0.924624
+SLC-MCO 174112.0 160926.0     0.924267
+
+==============================================================================
+[10/16] C1. Pangsa pasar dan tarif per maskapai, termasuk tarif per mil | Untuk: Bab 6.1, 7.1
+==============================================================================
+                          carrier_name       pax  market_share   avg_fare  avg_distance  fare_per_mile
+                Southwest Airlines Co. 5672174.0      0.241173 160.414073    979.685082       0.163740
+                  Delta Air Lines Inc. 3692455.0      0.156998 257.531519   1285.783061       0.200292
+                American Airlines Inc. 3200955.0      0.136100 254.088322   1355.511632       0.187448
+                 United Air Lines Inc. 2561170.0      0.108897 266.855268   1522.027292       0.175329
+                      Spirit Air Lines 1380394.0      0.058692 105.769038   1131.761034       0.093455
+                       JetBlue Airways 1282680.0      0.054538 201.131437   1348.465190       0.149156
+                  Alaska Airlines Inc. 1072110.0      0.045585 226.804531   1641.034984       0.138208
+                Frontier Airlines Inc. 1026558.0      0.043648  98.924299   1041.512822       0.094981
+                         Allegiant Air  844595.0      0.035911  86.460571    929.346214       0.093034
+                 SkyWest Airlines Inc.  783113.0      0.033297 218.250743    656.252923       0.332571
+                      Republic Airline  499251.0      0.021227 192.392842    632.556165       0.304151
+                Hawaiian Airlines Inc.  373136.0      0.015865 200.262793   1642.584130       0.121919
+                     Endeavor Air Inc.  240239.0      0.010215 198.704352    560.557158       0.354477
+                             Envoy Air  225731.0      0.009598 234.824205    720.675463       0.325839
+                     PSA Airlines Inc.  219510.0      0.009333 234.015005    586.607284       0.398930
+Sun Country Airlines d/b/a MN Airlines  152784.0      0.006496 155.865924   1324.007331       0.117723
+                           Horizon Air  149050.0      0.006337 171.236209    550.769574       0.310904
+                    Mesa Airlines Inc.  143195.0      0.006088 238.492042    779.040665       0.306136
+
+==============================================================================
+[11/16] C2. Konsentrasi pasar: pangsa kumulatif empat dan delapan maskapai terbesar | Untuk: Bab 7.1 — seberapa terkonsentrasi pasar domestik AS
+==============================================================================
+     cr4      cr8
+0.636298 0.836598
+
+==============================================================================
+[12/16] C3. Jumlah maskapai yang bersaing per rute dan kaitannya dengan tarif | Untuk: Bab 7.1 — apakah rute dengan sedikit pesaing bertarif lebih tinggi
+==============================================================================
+   tingkat_persaingan  jumlah_rute  total_pax  rata2_fare_per_mile
+           1 maskapai           23   162002.0             0.317017
+           2 maskapai           54   375240.0             0.216117
+           3 maskapai           45   503781.0             0.251016
+4 maskapai atau lebih         1116 13314935.0             0.206336
+
+==============================================================================
+[13/16] D1. Apakah rute dengan load factor tinggi juga rute dengan delay lebih buruk? | Untuk: Bab 6.3, 7.1 — pertanyaan utama laporan ini
+==============================================================================
+kelompok_load_factor  jumlah_rute_bulan  total_flights  rata2_delay_menit  rata2_on_time_rate
+     a. di bawah 60%               4746       309195.0           4.264386            0.814660
+           b. 60-70%               4548       328164.0           5.608904            0.804382
+           c. 70-80%               7967       575726.0           7.090681            0.794640
+           d. 80-90%              15717      1164120.0           8.157393            0.785718
+      e. 90% ke atas              11631       806490.0           8.492427            0.775317
+
+==============================================================================
+[14/16] D2. Korelasi numerik load factor dengan keterlambatan | Untuk: Bab 6.3 — angka pendamping D1
+==============================================================================
+    n  corr_lf_delay  corr_volume_delay
+44609       0.096696          -0.034178
+
+==============================================================================
+[15/16] D3. Profil gabungan per maskapai: operasional, kapasitas, komersial | Untuk: Bab 6.3, 7.1, 8 — tabel utama yang menghubungkan ketiga proses
+==============================================================================
+          carrier_name  flights  on_time_rate  avg_delay  load_factor   avg_fare  fare_per_mile
+     Endeavor Air Inc. 122380.0      0.843129   3.529836     0.739348 198.704352       0.354477
+Hawaiian Airlines Inc.  35458.0      0.839974   4.068151     0.766976 200.262793       0.121919
+             Envoy Air 128930.0      0.837797   1.940284     0.800499 234.824205       0.325839
+  Delta Air Lines Inc. 433347.0      0.834559   3.538339     0.839222 257.531519       0.200292
+           Horizon Air  47804.0      0.833159   4.880898     0.768016 171.236209       0.310904
+ SkyWest Airlines Inc. 375607.0      0.830433   6.095543     0.796237 218.250743       0.332571
+    Mesa Airlines Inc.  62411.0      0.812793   8.413718     0.850634 238.492042       0.306136
+  Alaska Airlines Inc. 109123.0      0.808342   3.355216     0.798589 226.804531       0.138208
+ United Air Lines Inc. 296499.0      0.799834   6.374714     0.832936 266.855268       0.175329
+     PSA Airlines Inc. 116733.0      0.790651   8.602650     0.798027 234.015005       0.398930
+American Airlines Inc. 419339.0      0.790634   8.089403     0.836152 254.088322       0.187448
+      Republic Airline 171165.0      0.784431   7.086771     0.677518 192.392842       0.304151
+Southwest Airlines Co. 614081.0      0.767489   6.185817     0.792652 160.414073       0.163740
+      Spirit Air Lines 109816.0      0.728838  13.373749     0.820341 105.769038       0.093455
+Frontier Airlines Inc.  73382.0      0.675274  18.118633     0.792325  98.924299       0.094981
+       JetBlue Airways 133926.0      0.663862  20.471328     0.772799 201.131437       0.149156
+         Allegiant Air  61071.0      0.655318  19.342917     0.824716  86.460571       0.093034
+
+==============================================================================
+[16/16] D4. Rute yang muncul di dua daftar sekaligus: traffic tinggi dan delay buruk | Untuk: Bab 6.3, 7.3 — kandidat prioritas perbaikan
+==============================================================================
+   rute      pax  flights  avg_delay
+MCO-EWR 492483.0   3365.0  21.584196
+MIA-JFK 503152.0   3347.0  20.964791
+MCO-PHL 460884.0   2892.0  20.214286
+JFK-MIA 477425.0   3345.0  18.253614
+MCO-SJU 459467.0   2939.0  18.185871
+EWR-MCO 495638.0   3368.0  17.802434
+LGA-MIA 446554.0   3238.0  16.664241
+MIA-LGA 465299.0   3238.0  15.896074
+SJU-MCO 454785.0   2933.0  14.827503
+ATL-MCO 646082.0   3823.0  14.602663
+MCO-ATL 649876.0   3842.0  14.258926
+PHL-MCO 459597.0   2892.0  13.564001
+MIA-ATL 480933.0   3455.0  12.707491
+ATL-MIA 484991.0   3476.0  12.498818
+MCO-ORD 426928.0   2513.0  12.428630
+DFW-LAS 442544.0   2638.0  11.805643
+ATL-TPA 459504.0   2920.0  11.676051
+DEN-LAS 515676.0   3746.0  11.630393
+DEN-ORD 477188.0   3197.0  11.596554
+FLL-ATL 590760.0   3537.0  11.169067
